@@ -21,8 +21,8 @@ data class Cliente(
     var nome: String,
 
     @Column(nullable = false)
-    var idade: Integer
+    var idade: Int
 ) {
-
-
+    constructor() : this(0, "", "", 0)
+    constructor(cpf: String,nome: String,idade: Int) : this(0,cpf,nome,idade)
 }
