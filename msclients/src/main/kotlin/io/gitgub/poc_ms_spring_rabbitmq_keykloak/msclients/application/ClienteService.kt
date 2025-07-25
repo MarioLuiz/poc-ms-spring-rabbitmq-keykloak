@@ -3,7 +3,9 @@ package io.gitgub.poc_ms_spring_rabbitmq_keykloak.msclients.application
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msclients.domain.Cliente
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msclients.infra.repository.ClienteRepository
 import jakarta.transaction.Transactional
+import org.springframework.stereotype.Service
 
+@Service
 class ClienteService(
     private val repository: ClienteRepository
 ) {
@@ -12,7 +14,7 @@ class ClienteService(
         return repository.save(cliente)
     }
 
-    fun getByCpf(cpf: String) : Cliente?{
+    fun getByCpf(cpf: String?) : Cliente?{
         return repository.findByCpf(cpf)
     }
 }
