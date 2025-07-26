@@ -2,6 +2,8 @@ package io.gitgub.poc_ms_spring_rabbitmq_keykloak.msclients.application
 
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msclients.application.representation.ClienteSaveRequest
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msclients.domain.Cliente
+import org.slf4j.Logger
+import org.slf4j.LoggerFactory
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PostMapping
@@ -17,9 +19,10 @@ import java.net.URI
 class ClienteResource(
     private val service: ClienteService
 ) {
-
+    private val log: Logger = LoggerFactory.getLogger(ClienteResource::class.java)
     @GetMapping
     fun status(): String{
+        log.info("Obtendo o status do microservice de clientes")
         return "Ok"
     }
 
