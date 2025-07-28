@@ -14,7 +14,7 @@ class ClienteService(
         return repository.save(cliente)
     }
 
-    fun getByCpf(cpf: String?) : Cliente?{
+    fun getByCpf(cpf: String?): Cliente? {
         return repository.findByCpf(cpf)
     }
 }

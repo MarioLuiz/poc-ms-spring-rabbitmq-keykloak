@@ -24,5 +24,5 @@ data class Cliente(
     var idade: Int
 ) {
     constructor() : this(0, "", "", 0)
-    constructor(cpf: String,nome: String,idade: Int) : this(0,cpf,nome,idade)
+    constructor(cpf: String, nome: String, idade: Int) : this(0, cpf, nome, idade)
 }

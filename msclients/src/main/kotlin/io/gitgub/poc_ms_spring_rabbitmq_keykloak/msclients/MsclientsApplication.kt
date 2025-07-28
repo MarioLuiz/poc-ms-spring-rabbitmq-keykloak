@@ -5,6 +5,7 @@ import org.springframework.boot.runApplication
 
 @SpringBootApplication
 class MsclientsApplication
+
 fun main(args: Array<String>) {
-	runApplication<MsclientsApplication>(*args)
+    runApplication<MsclientsApplication>(*args)
 }

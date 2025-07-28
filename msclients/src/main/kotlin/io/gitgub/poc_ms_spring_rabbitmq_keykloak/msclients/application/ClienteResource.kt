@@ -20,25 +20,26 @@ class ClienteResource(
     private val service: ClienteService
 ) {
     private val log: Logger = LoggerFactory.getLogger(ClienteResource::class.java)
+
     @GetMapping
-    fun status(): String{
+    fun status(): String {
         log.info("Obtendo o status do microservice de clientes")
         return "Ok"
     }
 
     @PostMapping
-    fun save(@RequestBody request: ClienteSaveRequest) : ResponseEntity<String>{
+    fun save(@RequestBody request: ClienteSaveRequest): ResponseEntity<String> {
         val cliente = request.toModel()
         service.save(cliente)
-        val headerLocation : URI = ServletUriComponentsBuilder.fromCurrentRequest()
+        val headerLocation: URI = ServletUriComponentsBuilder.fromCurrentRequest()
             .query("cpf={cpf}").buildAndExpand(cliente.cpf).toUri()
         return ResponseEntity.created(headerLocation).build<String>()
     }
 
     @GetMapping(params = ["cpf"])
-    fun dadosCliente(@RequestParam("cpf") cpf: String?): ResponseEntity<Cliente>{
+    fun dadosCliente(@RequestParam("cpf") cpf: String?): ResponseEntity<Cliente> {
         val cliente = service.getByCpf(cpf)
-        if (cliente != null){
+        if (cliente != null) {
             return ResponseEntity.ok(cliente)
         }
         return ResponseEntity.notFound().build<Cliente>()
