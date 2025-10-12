@@ -9,7 +9,9 @@ import org.springframework.web.bind.annotation.RestController
 
 @RestController
 @RequestMapping(path = arrayOf("/avaliacoes-credito"))
-class AvaliadorCreditoController {
+class AvaliadorCreditoController (
+    private val avaliadorDeCreditoService: AvaliadorDeCreditoService
+) {
 
     @GetMapping
     fun status(): String{
@@ -18,6 +20,6 @@ class AvaliadorCreditoController {
 
     @GetMapping("situacao-cliente", params = ["cpf"])
     fun consultaSituacaoCliente(@RequestParam("cpf") cpf : String): ResponseEntity<SituacaoCliente> {
-
+        val situacaoCliente = avaliadorDeCreditoService.obterSituacaoCliente(cpf)
     }
 }
