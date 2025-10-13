@@ -21,5 +21,6 @@ class AvaliadorCreditoController (
     @GetMapping("situacao-cliente", params = ["cpf"])
     fun consultaSituacaoCliente(@RequestParam("cpf") cpf : String): ResponseEntity<SituacaoCliente> {
         val situacaoCliente = avaliadorDeCreditoService.obterSituacaoCliente(cpf)
+        return ResponseEntity.ok(situacaoCliente)
     }
 }
