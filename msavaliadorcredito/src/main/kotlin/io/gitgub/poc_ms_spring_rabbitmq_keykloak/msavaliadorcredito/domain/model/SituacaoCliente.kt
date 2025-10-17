@@ -2,6 +2,6 @@ package io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.domain.mode
 
 
 data class SituacaoCliente (
-    val cliente: DadosCliente? = null,
+    val cliente: ClienteResumidoDTO,
     val cartoes: List<CartaoCliente>,
 ){}
