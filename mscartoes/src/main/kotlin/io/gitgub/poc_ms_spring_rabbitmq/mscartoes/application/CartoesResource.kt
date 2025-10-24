@@ -3,11 +3,11 @@ package io.gitgub.poc_ms_spring_rabbitmq.mscartoes.application
 import io.gitgub.poc_ms_spring_rabbitmq.mscartoes.application.representation.CartaRequestBody
 import io.gitgub.poc_ms_spring_rabbitmq.mscartoes.application.representation.CartoesPorClienteResponse
 import io.gitgub.poc_ms_spring_rabbitmq.mscartoes.domain.Cartao
-import io.gitgub.poc_ms_spring_rabbitmq.mscartoes.domain.ClienteCartao
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
 import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
 import java.util.stream.Collectors
@@ -41,7 +41,7 @@ class CartoesResource(
         return ResponseEntity.status(HttpStatus.OK).body(list)
     }
 
-    @GetMapping(params = ["cpf"])
+    @GetMapping(params = ["cpf"], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun getCartoesByCliente(@Param(value = "cpf") cpf: String): ResponseEntity<List<CartoesPorClienteResponse>> {
         val lista = clienteCartaoService.listCartoesByCpf(cpf)
         val resultList: List<CartoesPorClienteResponse> = lista.stream()
