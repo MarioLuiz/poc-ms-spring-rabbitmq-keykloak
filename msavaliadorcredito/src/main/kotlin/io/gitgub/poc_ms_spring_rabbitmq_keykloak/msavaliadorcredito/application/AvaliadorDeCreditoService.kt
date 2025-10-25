@@ -1,9 +1,13 @@
 package io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.application
 
+import feign.FeignException
+import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.application.exception.DadosClienteNotFoundException
+import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.application.exception.ErroComunicacaoMicroservicesException
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.application.mapper.ClienteMapper
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.domain.model.SituacaoCliente
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.infra.clients.CartoesResourceClient
 import io.gitgub.poc_ms_spring_rabbitmq_keykloak.msavaliadorcredito.infra.clients.ClienteResourceClient
+import org.springframework.http.HttpStatus
 import org.springframework.stereotype.Service
 
 @Service
@@ -24,9 +28,12 @@ class AvaliadorDeCreditoService(
             val clienteResumido = clienteMapper.toClienteResumidoDTO(dadosCliente)
             val situacao = SituacaoCliente(clienteResumido, dadosCartaoCliente)
             return situacao
-        } catch (e: Exception) {
-            e.printStackTrace()
-            throw RuntimeException("Erro ao consultar cliente", e)
+        } catch (e: FeignException.FeignClientException) {
+            val status = e.status()
+            if (status == HttpStatus.NOT_FOUND.value()) {
+                throw DadosClienteNotFoundException()
+            }
+            throw ErroComunicacaoMicroservicesException(e.message ?: "", status)
         }
     }
 }
