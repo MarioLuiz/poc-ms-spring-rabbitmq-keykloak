@@ -34,6 +34,10 @@ class AvaliadorDeCreditoService(
                 throw DadosClienteNotFoundException()
             }
             throw ErroComunicacaoMicroservicesException(e.message ?: "", status)
+        } catch (e: FeignException.FeignServerException) {
+            val status = e.status()
+            val message = e.message ?: ("Serviço indisponivel no momento, por favor tente mais tarde:" + e.message)
+            throw ErroComunicacaoMicroservicesException(message, status)
         }
     }
 }
