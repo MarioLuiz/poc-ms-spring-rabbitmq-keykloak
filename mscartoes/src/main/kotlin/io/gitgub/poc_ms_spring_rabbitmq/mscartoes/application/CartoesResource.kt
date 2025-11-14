@@ -5,7 +5,6 @@ import io.gitgub.poc_ms_spring_rabbitmq.mscartoes.application.representation.Car
 import io.gitgub.poc_ms_spring_rabbitmq.mscartoes.domain.Cartao
 import org.slf4j.Logger
 import org.slf4j.LoggerFactory
-import org.springframework.data.repository.query.Param
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -15,7 +14,7 @@ import java.util.stream.Collectors
 @RestController
 @RequestMapping("cartoes")
 class CartoesResource(
-    private val service: CartaoService,
+    private val cartaoService: CartaoService,
     private val clienteCartaoService: ClienteCartaoService
 ) {
 
@@ -30,19 +29,19 @@ class CartoesResource(
     @PostMapping
     fun cadastra(@RequestBody request: CartaRequestBody): ResponseEntity<String> {
         val cartao = request.toModel()
-        service.save(cartao)
+        cartaoService.save(cartao)
         return ResponseEntity.status(HttpStatus.CREATED).build()
     }
 
     @GetMapping(params = ["renda"])
-    fun getCartoesRendaAte(@Param(value = "renda") renda: Long): ResponseEntity<List<Cartao>> {
-        val list: List<Cartao> = service.getCartoesRendaMenorIgual(renda)
+    fun getCartoesRendaAte(@RequestParam(value = "renda") renda: Long): ResponseEntity<List<Cartao>> {
+        val list: List<Cartao> = cartaoService.getCartoesRendaMenorIgual(renda)
         //if (list.isEmpty()) return ResponseEntity.status(HttpStatus.NOT_FOUND).build()
         return ResponseEntity.status(HttpStatus.OK).body(list)
     }
 
     @GetMapping(params = ["cpf"], produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getCartoesByCliente(@Param(value = "cpf") cpf: String): ResponseEntity<List<CartoesPorClienteResponse>> {
+    fun getCartoesByCliente(@RequestParam(value = "cpf") cpf: String): ResponseEntity<List<CartoesPorClienteResponse>> {
         val lista = clienteCartaoService.listCartoesByCpf(cpf)
         val resultList: List<CartoesPorClienteResponse> = lista.stream()
             .map { CartoesPorClienteResponse.fromModel(it)}
