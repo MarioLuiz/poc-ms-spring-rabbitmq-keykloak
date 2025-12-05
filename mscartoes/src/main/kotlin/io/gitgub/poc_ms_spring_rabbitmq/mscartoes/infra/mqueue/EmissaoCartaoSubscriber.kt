@@ -8,10 +8,10 @@ import org.springframework.stereotype.Component
 @Component
 class EmissaoCartaoSubscriber {
 
-    @Value("\${mq.queues.emissao - cartoes}")
+    @Value("\${mq.queues.emissao-cartoes}")
     private lateinit var fila : String
 
-    @RabbitListener(queues = ["\${mq.queues.emissao - cartoes}"])
+    @RabbitListener(queues = ["\${mq.queues.emissao-cartoes}"])
     fun receberSolicitacaoEmissao(@Payload payload: String) {
         println(payload)
     }
